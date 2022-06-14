@@ -1,17 +1,17 @@
 const mysql = require("mysql");
-const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "cuahangdienthoai",
-});
 
-connection.connect();
+function connect() {
+  try {
+    const connection = mysql.createConnection({
+      host: "localhost",
+      user: "root",
+      password: "",
+      database: "cuahangdienthoai",
+    });
+    // console.log("connection database successful");
+  } catch (error) {
+    console.log("connection failed");
+  }
+}
 
-connection.query("SELECT 1 + 1 AS solution", (err, rows, fields) => {
-  if (err) throw err;
-
-  console.log("The solution is: ", rows[0].solution);
-});
-
-connection.end();
+module.exports = { connect };
