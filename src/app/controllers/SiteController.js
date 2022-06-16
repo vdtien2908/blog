@@ -1,7 +1,23 @@
+// Connection database
+const connection = require("../../config/db");
 class SiteController {
   // [GET] /
   home(req, res) {
-    res.render("home");
+    {
+      dataTest: "123";
+    }
+    let data = [];
+    connection.query(
+      "SELECT * FROM `dienthoai`",
+      function (err, results, fields) {
+        console.log(results);
+        data = results.map(function (row) {
+          return row;
+        });
+      }
+    );
+    console.log(data);
+    res.render("home", { dataPhone: 123, dataTest: "abc" });
   }
 
   //[GET] /search

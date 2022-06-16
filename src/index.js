@@ -8,10 +8,6 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 const route = require("./routes");
-const db = require("./config/db");
-
-// Connect to database
-db.connect();
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
