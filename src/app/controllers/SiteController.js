@@ -1,23 +1,58 @@
 // Connection database
 const connection = require("../../config/db");
+
 class SiteController {
   // [GET] /
   home(req, res) {
-    {
-      dataTest: "123";
-    }
-    let data = [];
+    // user the connection
+    connection.query("SELECT * FROM dienthoai", function (err, rows) {
+      if (!err) {
+        console.log("Database connection");
+        res.render("home", { rows: rows });
+      } else {
+        console.log(err);
+      }
+    });
+  }
+
+  // [PORT]
+  find(req, res) {
+    let SearchTerm = req.body.search;
+    // user the connection
     connection.query(
-      "SELECT * FROM `dienthoai`",
-      function (err, results, fields) {
-        console.log(results);
-        data = results.map(function (row) {
-          return row;
-        });
+      "SELECT * FROM dienthoai where name_phone like ?",
+      ["%" + SearchTerm + "%"],
+      function (err, rows) {
+        if (!err) {
+          res.render("home", { rows: rows });
+        } else {
+          console.log(err);
+        }
       }
     );
-    console.log(data);
-    res.render("home", { dataPhone: 123, dataTest: "abc" });
+  }
+
+  // [POST]
+  form(req, res) {
+    res.render("addPhone");
+  }
+
+  // [POST] /addUser
+  create(req, res) {
+    const { name_phone, price_phone, description } = req.body;
+    // res.render("addPhone");
+    connection.query(
+      "INSERT INTO dienthoai SET name_phone = ?, price_phone = ?, description =?",
+      [name_phone, price_phone, description],
+      function (err, rows) {
+        if (!err) {
+          res.render("addPhone");
+        } else {
+          console.log(err);
+        }
+        console.log("Table: " + rows);
+      }
+    );
   }
 
   //[GET] /search

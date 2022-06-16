@@ -1,1 +1,75 @@
-<h1>{{dataTest}}</h1>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>document</title>
+  </head>
+  <body>
+    {{! Search }}
+    <div class="search">
+      <div class="mt-4">
+        <form method="POST" action="/" novalidate>
+          <div class="form-group">
+            <label for="search-input">Search Phone</label>
+            <input
+              type="text"
+              name="search"
+              class="form-control"
+              id="exampleInputEmail1"
+              placeholder="Input Name"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">OK</button>
+        </form>
+      </div>
+    </div>
+    {{! Search }}
+
+    {{! View table }}
+    <div class="table-list_phone">
+      <h2 class="text-center">PHONE INFORMATION LIST</h2>
+
+      <table class="table table-bordered">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Description</th>
+          <th>Action</th>
+        </tr>
+        {{#each rows}}
+          <tr>
+            <td>{{this.id}}</td>
+            <td>{{this.name_phone}}</td>
+            <td>{{this.price_phone}}</td>
+            <td>{{this.description}} </td>
+            <td>
+              <a class="btn btn-secondary" href="#" role="button">View</a>
+              <a class="btn btn-secondary" href="#" role="button">Edit</a>
+              <a class="btn btn-secondary" href="#" role="button">Delete</a>
+            </td>
+          </tr>
+        {{/each}}
+      </table>
+    </div>
+    {{! View table }}
+
+    <div class="row">
+      <div class="col-6"></div>
+      <div class="col-6 d-flex justify-content-end">
+        <a
+          href="/"
+          type="button"
+          class="btn btn-primary align-self-center mr-3"
+        >Refresh</a>
+        <a
+          href="/addPhone"
+          type="button"
+          class="btn btn-primary align-self-center"
+        >ADD</a>
+      </div>
+
+    </div>
+  </body>
+</html>
