@@ -1,0 +1,23 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Create new Product</li>
+  </ol>
+</nav>
+
+<table class="table table-bordered">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Description</th>
+  </tr>
+  {{#each rows}}
+    <tr>
+      <td>{{this.id}}</td>
+      <td>{{this.name_phone}}</td>
+      <td>{{this.price_phone}}</td>
+      <td>{{this.description}} </td>
+    </tr>
+  {{/each}}
+</table>
