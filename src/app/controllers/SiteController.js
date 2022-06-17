@@ -5,14 +5,17 @@ class SiteController {
   // [GET] /
   home(req, res) {
     // user the connection
-    connection.query("SELECT * FROM dienthoai", function (err, rows) {
-      if (!err) {
-        console.log("Database connection");
-        res.render("home", { rows: rows });
-      } else {
-        console.log(err);
+    connection.query(
+      "SELECT * FROM dienthoai WHERE status = 'active'",
+      function (err, rows) {
+        if (!err) {
+          console.log("Database connection");
+          res.render("home", { rows: rows });
+        } else {
+          console.log(err);
+        }
       }
-    });
+    );
   }
 
   // [PORT]
@@ -20,7 +23,7 @@ class SiteController {
     let SearchTerm = req.body.search;
     // user the connection
     connection.query(
-      "SELECT * FROM dienthoai where name_phone like ?",
+      "SELECT * FROM dienthoai where name_phone like ? and status = 'active'",
       ["%" + SearchTerm + "%"],
       function (err, rows) {
         if (!err) {
@@ -103,7 +106,7 @@ class SiteController {
   // [GET] /:id
   delete(req, res) {
     connection.query(
-      "DELETE FROM dienthoai WHERE id = ?",
+      "UPDATE dienthoai SET status = 'remove' WHERE id = ?",
       [req.params.id],
       function (err, rows) {
         if (!err) {
