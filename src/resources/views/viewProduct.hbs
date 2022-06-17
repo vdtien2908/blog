@@ -7,14 +7,14 @@
 
 <table class="table table-bordered">
   <tr>
-    <th>ID</th>
+    <th>STT</th>
     <th>Name</th>
     <th>Price</th>
     <th>Description</th>
   </tr>
   {{#each rows}}
     <tr>
-      <td>{{this.id}}</td>
+      <td>{{@index}}</td>
       <td>{{this.name_phone}}</td>
       <td>{{this.price_phone}}</td>
       <td>{{this.description}} </td>
