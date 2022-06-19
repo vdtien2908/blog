@@ -43,13 +43,12 @@ class SiteController {
   // [POST] /addUser
   create(req, res) {
     const { name_phone, price_phone, description } = req.body;
-    // res.render("addPhone");
     connection.query(
       "INSERT INTO dienthoai SET name_phone = ?, price_phone = ?, description =?",
       [name_phone, price_phone, description],
       function (err, rows) {
         if (!err) {
-          res.render("addPhone", { alerts: "successful add product." });
+          res.redirect("/");
         } else {
           console.log(err);
         }
