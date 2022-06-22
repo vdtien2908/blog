@@ -1,142 +1,22 @@
 // Connection database
-const connection = require("../../config/db");
+const express = require("express");
+const pool = require("../../config/db");
 
 class SiteController {
-  // [GET] /
-  home(req, res) {
-    // user the connection
-    connection.query(
-      "SELECT * FROM dienthoai WHERE status = 'active'",
-      function (err, rows) {
-        if (!err) {
-          console.log("Database connection");
-          res.render("home", { rows: rows });
-        } else {
+  render(req, res) {
+    let sql = "select * from dienthoai where status = 'active' ";
+    pool.getConnection(function (err, connection) {
+      if (err) throw err;
+      connection
+        .promise()
+        .query(sql)
+        .then(([rows, field]) => {
+          res.render("home", { rows });
+        })
+        .catch((err) => {
           console.log(err);
-        }
-      }
-    );
-  }
-
-  // [PORT]
-  find(req, res) {
-    let SearchTerm = req.body.search;
-    // user the connection
-    connection.query(
-      "SELECT * FROM dienthoai where name_phone like ? and status = 'active'",
-      ["%" + SearchTerm + "%"],
-      function (err, rows) {
-        if (!err) {
-          res.render("home", { rows: rows });
-        } else {
-          console.log(err);
-        }
-      }
-    );
-  }
-
-  // [POST]
-  form(req, res) {
-    res.render("addPhone");
-  }
-
-  // [POST] /addUser
-  create(req, res) {
-    const { name_phone, price_phone, description } = req.body;
-    connection.query(
-      "INSERT INTO dienthoai SET name_phone = ?, price_phone = ?, description =?",
-      [name_phone, price_phone, description],
-      function (err, rows) {
-        if (!err) {
-          res.redirect("/");
-        } else {
-          console.log(err);
-        }
-      }
-    );
-  }
-
-  // [POST] /editPhone/:id
-  edit(req, res) {
-    connection.query(
-      "SELECT * FROM dienthoai where id = ?",
-      [req.params.id],
-      function (err, rows) {
-        if (!err) {
-          console.log("Database connection");
-          res.render("editPhone", { rows });
-        } else {
-          console.log(err);
-        }
-      }
-    );
-  }
-
-  // [POST] /editPhone/:id
-  update(req, res) {
-    const { name_phone, price_phone, description } = req.body;
-    connection.query(
-      "UPDATE dienthoai SET name_phone = ?, price_phone = ?, description = ? where id = ?",
-      [name_phone, price_phone, description, req.params.id],
-      function (err, rows) {
-        if (!err) {
-          connection.query(
-            "SELECT * FROM dienthoai where id = ?",
-            [req.params.id],
-            function (err, rows) {
-              if (!err) {
-                console.log("Database connection");
-                res.render("editPhone", {
-                  rows,
-                  alert: `${name_phone} successful update. `,
-                });
-              } else {
-                console.log(err);
-              }
-            }
-          );
-        } else {
-          console.log(err);
-        }
-      }
-    );
-  }
-
-  // [GET] /:id
-  delete(req, res) {
-    connection.query(
-      "UPDATE dienthoai SET status = 'remove' WHERE id = ?",
-      [req.params.id],
-      function (err, rows) {
-        if (!err) {
-          console.log("Database connection");
-          res.redirect("/");
-        } else {
-          console.log(err);
-        }
-      }
-    );
-  }
-
-  // [GET]
-  view(req, res) {
-    // user the connection
-    connection.query(
-      "SELECT * FROM dienthoai where id =  ?",
-      [req.params.id],
-      function (err, rows) {
-        if (!err) {
-          res.render("viewProduct", { rows: rows });
-        } else {
-          console.log(err);
-        }
-      }
-    );
-  }
-
-  //[GET] /search
-  search(req, res) {
-    res.render("search");
+        });
+    });
   }
 }
 
