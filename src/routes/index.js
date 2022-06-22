@@ -1,8 +1,8 @@
-const newsRoute = require("./news");
 const siteRoute = require("./site");
+const api = require("./api");
 
 function route(app) {
-  app.use("/news", newsRoute);
+  app.use("/api", api);
   app.use("/", siteRoute);
 }
 
